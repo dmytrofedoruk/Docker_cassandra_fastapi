@@ -6,7 +6,6 @@ dans ce brief nous avons fait une api connecter a un cluster cassandra compoé d
 
 * _docker-cassandra-fastapi_ : doccier contenant toute les ressources
 * _app_ : dossier contenant l'api faite avec Fastapi, et le fichier requirement pour créer l'image
-* _data_ : dossier contenant les volumes du cluster cassandra
 * docker-compose.yml_ : le docker-compose utiliser pour le brief
 * _Dockerfile_ : le dockerfile pour créer l'image Fastapi
 
