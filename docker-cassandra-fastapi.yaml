@@ -1,0 +1,53 @@
+namespace: docker-cassandra-fastapi
+docker-cassandra-fastapi:
+  defines: runnable
+  metadata:
+    name: docker-cassandra-fastapi
+    description: >-
+      A FastAPI application that provides endpoints to interact with a
+      restaurant database stored on Cassandra.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    docker-cassandra-fastapi:
+      build: .
+  services:
+    http-traffic:
+      container: docker-cassandra-fastapi
+      port: 80
+      host-port: 80
+      publish: false
+      protocol: TCP
+      description: Port for handling HTTP traffic to the FastAPI application.
+  connections:
+    cassandra-connection:
+      target: docker-cassandra-fastapi/db
+      service: cassandra-svc
+  variables:
+    cassandra-cluster-name:
+      env: CASSANDRA_CLUSTER_NAME
+      type: string
+      description: Name of the Cassandra cluster
+      value: Restaurants
+    cassandra-seeds:
+      env: CASSANDRA_SEEDS
+      type: string
+      description: Seeds for cluster discovery
+      value: seed
+    cassandra-hosts:
+      env: CASSANDRA_HOSTS
+      type: string
+      description: Cassandra cluster hosts
+      value: <- connection-hostname("cassandra-connection")
+    cassandra-port:
+      env: CASSANDRA_PORT
+      type: string
+      description: Cassandra cluster port
+      value: <- connection-port("cassandra-connection")
+db:
+  defines: runnable
+  inherits: cassandra/db
+stack:
+  defines: group
+  runnable-list:
+    - docker-cassandra-fastapi/docker-cassandra-fastapi
+    - docker-cassandra-fastapi/db

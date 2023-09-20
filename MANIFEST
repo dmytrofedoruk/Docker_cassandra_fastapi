@@ -1,0 +1,2 @@
+REPO docker-cassandra-fastapi
+LOAD docker-cassandra-fastapi.yaml
